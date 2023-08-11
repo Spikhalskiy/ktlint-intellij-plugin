@@ -45,10 +45,6 @@ dependencies {
     compileOnly(project(":lib")) // Required for IDE
     implementation(project(":lib", "shadow"))
 
-    implementation("com.rollbar:rollbar-java:1.10.0") {
-        exclude(group = "org.slf4j") // Duplicated in IDE environment
-    }
-
     // Tests:
     testImplementation(project(":lib"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
@@ -74,14 +70,8 @@ intellij {
 buildConfig {
     packageName("$pluginGroup.$pluginName_")
 
-    val propsFile = File("secrets.properties")
-    if (!propsFile.exists()) throw GradleException("secrets.properties not found.")
-    val props = Properties()
-    props.load(FileInputStream(propsFile))
-
     buildConfigField("String", "NAME", "\"ktlint-intellij-plugin\"")
-    buildConfigField("String", "VERSION", "\"$pluginVersion\"")
-    buildConfigField("String", "ROLLBAR_ACCESS_TOKEN", "\"${props.getProperty("ROLLBAR_ACCESS_TOKEN")}\"")
+    buildConfigField("String", "VERSION", "\"0.13-SNAPSHOT\"")
 }
 
 // Configure gradle-changelog-plugin plugin.
